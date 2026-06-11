@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hadi Abdul Gafoor · Content &amp; Creative Lead</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     DESIGN TOKENS
+     Paper-light editorial system. Ink type, cobalt accent,
+     mono utility labels. Motion: lerp smooth scroll + parallax.
+  ============================================================ */
+  :root {
+    --paper: #FAFAF7;
+    --paper-deep: #F1F1EC;
+    --ink: #0E0E0C;
+    --muted: #6E6E67;
+    --line: #E2E2DA;
+    --accent: #2B3CFF;
+    --accent-soft: #E8EAFF;
+    --display: 'Archivo', sans-serif;
+    --mono: 'Space Mono', monospace;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: auto; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--accent); color: #fff; }
+
+  /* ============================================================
+     SMOOTH SCROLL ARCHITECTURE
+     .scroll-content is fixed and translated via JS lerp.
+     body height is set to content height so the native
+     scrollbar still works. Fixed UI lives outside it.
+  ============================================================ */
+  .scroll-content {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    will-change: transform;
+  }
+  body.native-scroll .scroll-content { position: static; will-change: auto; }
+
+  /* ============================================================
+     FIXED UI: progress bar + header
+  ============================================================ */
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0%;
+    background: var(--accent);
+    z-index: 1001;
+  }
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 4vw;
+    z-index: 1000;
+    mix-blend-mode: difference;
+  }
+  header a { text-decoration: none; }
+  .wordmark {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+  .header-nav { display: flex; gap: 28px; }
+  .header-nav a {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+  }
+  .header-nav a:hover { opacity: 1; }
+
+  /* ============================================================
+     SHARED
+  ============================================================ */
+  .container { padding-left: 4vw; padding-right: 4vw; max-width: 1480px; margin: 0 auto; }
+  section { position: relative; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 28px; height: 1px;
+    background: var(--accent);
+  }
+  .section-title {
+    font-size: clamp(38px, 5.4vw, 84px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.0;
+    margin-top: 20px;
+  }
+  .lede {
+    font-size: clamp(17px, 1.4vw, 21px);
+    line-height: 1.65;
+    color: var(--muted);
+    max-width: 620px;
+  }
+  .mono-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Reveal animation */
+  .rv {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  }
+  .rv.in { opacity: 1; transform: translateY(0); }
+  .rv-d1 { transition-delay: 0.08s; }
+  .rv-d2 { transition-delay: 0.16s; }
+  .rv-d3 { transition-delay: 0.24s; }
+  .rv-d4 { transition-delay: 0.32s; }
+
+  /* ============================================================
+     HERO
+  ============================================================ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 7vh;
+    overflow: hidden;
+  }
+  .hero-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 4vw;
+    margin-bottom: 4vh;
+  }
+  .hero-name {
+    font-size: clamp(58px, 12.5vw, 210px);
+    font-weight: 900;
+    letter-spacing: -0.045em;
+    line-height: 0.88;
+    text-transform: uppercase;
+    padding: 0 4vw;
+    will-change: transform;
+  }
+  .hero-name .accent-row { color: var(--accent); }
+  .hero-sub {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 0 4vw;
+    margin-top: 5vh;
+    flex-wrap: wrap;
+  }
+  .hero-role {
+    font-size: clamp(17px, 1.6vw, 23px);
+    font-weight: 500;
+    max-width: 460px;
+    line-height: 1.45;
+  }
+  .hero-role em { font-style: normal; color: var(--accent); }
+  .hero-tags { display: flex; flex-direction: column; gap: 6px; text-align: right; }
+  .scroll-cue {
+    position: absolute;
+    bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    animation: cue 2.2s var(--ease) infinite;
+  }
+  @keyframes cue {
+    0%, 100% { transform: translate(-50%, 0); opacity: 0.5; }
+    50% { transform: translate(-50%, 8px); opacity: 1; }
+  }
+
+  /* ============================================================
+     MARQUEE
+  ============================================================ */
+  .marquee {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+    padding: 22px 0;
+    background: var(--paper);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    width: max-content;
+    animation: marquee 30s linear infinite;
+  }
+  .marquee-track span {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink);
+    white-space: nowrap;
+    padding: 0 18px;
+  }
+  .marquee-track .dot { color: var(--accent); padding: 0; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ============================================================
+     ABOUT
+  ============================================================ */
+  .about { padding: 16vh 0; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 7vw;
+    margin-top: 8vh;
+  }
+  .about-statement {
+    font-size: clamp(24px, 2.6vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+  .about-statement .hl { color: var(--accent); }
+  .about-body { margin-top: 4vh; }
+  .principles { display: flex; flex-direction: column; }
+  .principle {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 18px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .principle:first-child { border-top: 1px solid var(--line); }
+  .principle-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    padding-top: 4px;
+  }
+  .principle h3 { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+  .principle p { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+  /* ============================================================
+     SELECTED WORK
+  ============================================================ */
+  .work { padding: 14vh 0 10vh; background: var(--paper-deep); }
+  .work-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .work-list { margin-top: 10vh; display: flex; flex-direction: column; gap: 14vh; }
+
+  .project {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5vw;
+    align-items: center;
+  }
+  .project:nth-child(even) .project-media { order: 2; }
+
+  /* MEDIA PLACEHOLDER FRAME
+     Replace the inner .placeholder div with your real asset:
+     <img src="your-file.jpg" alt="" />  or
+     <video src="your-file.mp4" autoplay muted loop playsinline></video>
+     Keep the .project-media wrapper for the parallax effect. */
+  .project-media {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    aspect-ratio: 4 / 3;
+    background: #E9E9E2;
+  }
+  .project-media .parallax-inner {
+    position: absolute;
+    inset: -12% 0;
+    will-change: transform;
+  }
+  .project-media img,
+  .project-media video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .placeholder {
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1.5px dashed #C9C9BF;
+    border-radius: 4px;
+    background:
+      repeating-linear-gradient(45deg, transparent, transparent 28px, rgba(0,0,0,0.018) 28px, rgba(0,0,0,0.018) 56px);
+  }
+  .placeholder .ph-kind {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 5px 12px;
+    border-radius: 2px;
+  }
+  .placeholder .ph-desc {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    max-width: 75%;
+    line-height: 1.6;
+  }
+
+  .project-info .proj-index {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .project-info h3 {
+    font-size: clamp(26px, 2.6vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .project-info p {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 480px;
+    margin-bottom: 22px;
+  }
+  .proj-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .proj-tags span {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    background: var(--paper);
+    padding: 6px 12px;
+    border-radius: 2px;
+  }
+  .proj-result {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .proj-result strong {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+  }
+  .proj-result span { font-size: 12px; color: var(--muted); }
+
+  /* ============================================================
+     METRICS
+  ============================================================ */
+  .metrics { padding: 16vh 0; }
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 8vh;
+    border-top: 1px solid var(--line);
+  }
+  .metric {
+    padding: 44px 28px 44px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .metric + .metric { padding-left: 28px; border-left: 1px solid var(--line); }
+  .metric .num {
+    font-size: clamp(44px, 4.6vw, 72px);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .metric .num .unit { color: var(--accent); }
+  .metric .lbl { margin-top: 12px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .metrics-note { margin-top: 4vh; }
+
+  /* ============================================================
+     EXPERIENCE
+  ============================================================ */
+  .experience { padding: 14vh 0 16vh; background: var(--ink); color: var(--paper); }
+  .experience .eyebrow { color: #8B8B83; }
+  .experience .section-title { color: var(--paper); }
+  .xp-list { margin-top: 8vh; }
+  .xp-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 4vw;
+    padding: 38px 0;
+    border-bottom: 1px solid #26261F;
+  }
+  .xp-row:first-child { border-top: 1px solid #26261F; }
+  .xp-period { font-family: var(--mono); font-size: 12px; color: #8B8B83; padding-top: 6px; }
+  .xp-period .current { color: var(--accent); display: block; margin-top: 6px; font-size: 10px; letter-spacing: 1.5px; }
+  .xp-role h3 { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; }
+  .xp-role .co { font-size: 13px; color: #8B8B83; margin-top: 4px; }
+  .xp-notes { font-size: 13.5px; color: #B9B9B0; line-height: 1.7; }
+  .xp-notes li { list-style: none; padding-left: 16px; position: relative; margin-bottom: 4px; }
+  .xp-notes li::before { content: '/'; position: absolute; left: 0; color: var(--accent); }
+
+  /* ============================================================
+     CAPABILITIES + TOOLS
+  ============================================================ */
+  .capabilities { padding: 16vh 0; }
+  .cap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7vw;
+    margin-top: 8vh;
+  }
+  .cap-list .cap-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+    transition: padding-left 0.4s var(--ease);
+  }
+  .cap-list .cap-item:first-child { border-top: 1px solid var(--line); }
+  .cap-list .cap-item:hover { padding-left: 14px; }
+  .cap-item .cap-name { font-size: clamp(19px, 1.9vw, 26px); font-weight: 700; letter-spacing: -0.01em; }
+  .cap-item .cap-no { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .tools-col h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 28px 0 12px;
+  }
+  .tools-col h4:first-child { margin-top: 0; }
+  .tool-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tool-row span {
+    font-size: 13px;
+    border: 1px solid var(--line);
+    padding: 7px 14px;
+    border-radius: 999px;
+    color: var(--ink);
+    background: var(--paper);
+  }
+
+  /* ============================================================
+     PHOTOGRAPHY STRIP
+  ============================================================ */
+  .photo { padding: 0 0 16vh; }
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 7vh;
+  }
+  .photo-card .project-media { aspect-ratio: 3 / 4; }
+  .photo-card .cap {
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .photo-card .cap b { font-size: 14px; font-weight: 600; }
+
+  /* ============================================================
+     CONTACT
+  ============================================================ */
+  .contact {
+    padding: 18vh 0 6vh;
+    background: var(--accent);
+    color: #fff;
+    overflow: hidden;
+  }
+  .contact .eyebrow { color: rgba(255,255,255,0.7); }
+  .contact .eyebrow::before { background: #fff; }
+  .contact-big {
+    font-size: clamp(44px, 8vw, 130px);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    text-transform: uppercase;
+    margin-top: 4vh;
+  }
+  .contact-big a {
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 4px solid rgba(255,255,255,0.35);
+    transition: border-color 0.3s;
+  }
+  .contact-big a:hover { border-color: #fff; }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 10vh;
+    padding-top: 4vh;
+    border-top: 1px solid rgba(255,255,255,0.25);
+  }
+  .contact-grid .c-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 8px;
+  }
+  .contact-grid a, .contact-grid .c-val {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .contact-grid a:hover { text-decoration: underline; }
+  .footer-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12vh;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ============================================================
+     RESPONSIVE
+  ============================================================ */
+  @media (max-width: 960px) {
+    .about-grid, .cap-grid, .project { grid-template-columns: 1fr; }
+    .project:nth-child(even) .project-media { order: 0; }
+    .metrics-grid { grid-template-columns: 1fr 1fr; }
+    .metric + .metric { padding-left: 0; border-left: none; }
+    .metric:nth-child(even) { padding-left: 28px; border-left: 1px solid var(--line); }
+    .xp-row { grid-template-columns: 1fr; gap: 14px; }
+    .photo-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr 1fr; }
+    .header-nav { display: none; }
+    .hero-tags { text-align: left; }
+  }
+
+  /* Reduced motion: kill animations, restore native scroll feel */
+  @media (prefers-reduced-motion: reduce) {
+    .rv { opacity: 1; transform: none; transition: none; }
+    .marquee-track { animation: none; }
+    .scroll-cue { animation: none; }
+    * { scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<header>
+  <a href="#top" class="wordmark">HAG®</a>
+  <nav class="header-nav">
+    <a href="#about" data-jump>About</a>
+    <a href="#work" data-jump>Work</a>
+    <a href="#experience" data-jump>Experience</a>
+    <a href="#contact" data-jump>Contact</a>
+  </nav>
+</header>
+
+<div class="scroll-content" id="scrollContent">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="top">
+    <div class="hero-meta-row">
+      <span class="mono-meta rv">Portfolio · 2026</span>
+      <span class="mono-meta rv rv-d1">Dubai, UAE · 25.20°N 55.27°E</span>
+    </div>
+    <h1 class="hero-name" id="heroName">
+      <span class="rv">Hadi</span><br>
+      <span class="rv rv-d1">Abdul</span><br>
+      <span class="accent-row rv rv-d2">Gafoor</span>
+    </h1>
+    <div class="hero-sub">
+      <p class="hero-role rv rv-d3">Content &amp; Creative Lead building <em>multi-channel content systems</em> that turn brands into media engines.</p>
+      <div class="hero-tags rv rv-d4">
+        <span class="mono-meta">Brand Strategy</span>
+        <span class="mono-meta">Video &amp; Radio Production</span>
+        <span class="mono-meta">Organic Growth</span>
+        <span class="mono-meta">Alfred Holdings · InsuranceMarket.ae</span>
+      </div>
+    </div>
+    <span class="scroll-cue">Scroll ↓</span>
+  </section>
+
+  <!-- ================= MARQUEE ================= -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Content Strategy</span><span class="dot">●</span>
+      <span>Video Production</span><span class="dot">●</span>
+      <span>Radio &amp; Voice</span><span class="dot">●</span>
+      <span>Brand Storytelling</span><span class="dot">●</span>
+      <span>Photography</span><span class="dot">●</span>
+      <span>Performance Creative</span><span class="dot">●</span>
+      <span>Content Strategy</span><span class="dot">●</span>
+      <span>Video Production</span><span class="dot">●</span>
+      <span>Radio &amp; Voice</span><span class="dot">●</span>
+      <span>Brand Storytelling</span><span class="dot">●</span>
+      <span>Photography</span><span class="dot">●</span>
+      <span>Performance Creative</span><span class="dot">●</span>
+    </div>
+  </div>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="eyebrow rv">About</div>
+      <div class="about-grid">
+        <div>
+          <p class="about-statement rv rv-d1">I work at the intersection of <span class="hl">content, brand, and growth</span>: building systems that scale visibility, not one-off posts.</p>
+          <p class="lede about-body rv rv-d2">Content &amp; Creative Lead with 8+ years across content creation, brand storytelling, and multi-channel media production. Currently driving organic growth and content strategy within Alfred Holdings, spanning myAlfred LLC and InsuranceMarket.ae in the UAE.</p>
+        </div>
+        <div class="principles rv rv-d2">
+          <div class="principle">
+            <span class="principle-num">01</span>
+            <div>
+              <h3>System-first thinking</h3>
+              <p>Content built as a repeatable system, not isolated posts.</p>
+            </div>
+          </div>
+          <div class="principle">
+            <span class="principle-num">02</span>
+            <div>
+              <h3>Format testing &amp; consistency</h3>
+              <p>Experimentation plus consistency is what compounds growth.</p>
+            </div>
+          </div>
+          <div class="principle">
+            <span class="principle-num">03</span>
+            <div>
+              <h3>Unified brand voice</h3>
+              <p>One voice, recognisable across every channel and format.</p>
+            </div>
+          </div>
+          <div class="principle">
+            <span class="principle-num">04</span>
+            <div>
+              <h3>Distribution-led creation</h3>
+              <p>Distribution is designed in from the start, not bolted on.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SELECTED WORK ================= -->
+  <section class="work" id="work">
+    <div class="container">
+      <div class="work-head">
+        <div>
+          <div class="eyebrow rv">Selected Work</div>
+          <h2 class="section-title rv rv-d1">Things I've<br>built &amp; grown</h2>
+        </div>
+        <span class="mono-meta rv rv-d2">06 Projects · 2025 — 2026</span>
+      </div>
+
+      <div class="work-list">
+
+        <!-- PROJECT 01 -->
+        <article class="project">
+          <div class="project-media rv">
+            <div class="parallax-inner" data-parallax="0.12">
+              <!-- REPLACE PLACEHOLDER: drop in screen-recording reel or analytics screenshots
+                   <video src="assets/social-growth.mp4" autoplay muted loop playsinline></video> -->
+              <div class="placeholder">
+                <span class="ph-kind">Video / Image</span>
+                <span class="ph-desc">Drop in: growth reel, analytics screenshots, or top-performing post montage</span>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="proj-index rv">01 / Growth</span>
+            <h3 class="rv rv-d1">The Organic Growth Engine</h3>
+            <p class="rv rv-d2">A structured publishing and format-testing strategy that scaled brand channels organically in one year. High-frequency output, relentless iteration, zero paid followers.</p>
+            <div class="proj-tags rv rv-d3">
+              <span>LinkedIn</span><span>Instagram</span><span>Strategy</span>
+            </div>
+            <div class="proj-result rv rv-d3">
+              <strong>12K → 50K</strong><span>LinkedIn followers, organic, 12 months</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 02 -->
+        <article class="project">
+          <div class="project-media rv">
+            <div class="parallax-inner" data-parallax="0.12">
+              <!-- REPLACE PLACEHOLDER: episode clip or character art
+                   <video src="assets/alfred-friends.mp4" autoplay muted loop playsinline></video> -->
+              <div class="placeholder">
+                <span class="ph-kind">Video</span>
+                <span class="ph-desc">Drop in: Alfred &amp; Friends episode clip or character showcase reel</span>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="proj-index rv">02 / Original IP</span>
+            <h3 class="rv rv-d1">Alfred &amp; Friends</h3>
+            <p class="rv rv-d2">A children's animated series for ages 4 to 10, part of the broader brand IP strategy within the Alfred Holdings ecosystem. Contributed to character development, voice conceptualization, and own the character voice systems across all productions.</p>
+            <div class="proj-tags rv rv-d3">
+              <span>Animation</span><span>Voice Design</span><span>Brand IP</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 03 -->
+        <article class="project">
+          <div class="project-media rv">
+            <div class="parallax-inner" data-parallax="0.12">
+              <!-- REPLACE PLACEHOLDER: waveform visual, studio shot, or radio spot video
+                   <img src="assets/radio-production.jpg" alt="Radio production at Alfred Studios"> -->
+              <div class="placeholder">
+                <span class="ph-kind">Image / Audio</span>
+                <span class="ph-desc">Drop in: studio photo, waveform visual, or embedded radio spot player</span>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="proj-index rv">03 / Broadcast</span>
+            <h3 class="rv rv-d1">Radio &amp; Voice Production</h3>
+            <p class="rv rv-d2">Scripting, producing, and post-producing radio advertisements broadcast across major UAE networks. Built around the Alfred brand voice for recall and lead generation, using AI-assisted voice tools and close coordination with the in-house sound engineer at Alfred Studios.</p>
+            <div class="proj-tags rv rv-d3">
+              <span>Radio</span><span>ElevenLabs</span><span>Post-Production</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 04 -->
+        <article class="project">
+          <div class="project-media rv">
+            <div class="parallax-inner" data-parallax="0.12">
+              <!-- REPLACE PLACEHOLDER: grid of ad creatives
+                   <img src="assets/ad-creatives.jpg" alt="Campaign creative grid"> -->
+              <div class="placeholder">
+                <span class="ph-kind">Image</span>
+                <span class="ph-desc">Drop in: grid of best-performing Meta and Google ad creatives</span>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="proj-index rv">04 / Performance</span>
+            <h3 class="rv rv-d1">Campaign Creative at Scale</h3>
+            <p class="rv rv-d2">Creative assets supporting Meta and Google campaigns: message hierarchy nailed, attention captured in the first three seconds, formats adapted per platform. Produced in close collaboration with performance marketing teams.</p>
+            <div class="proj-tags rv rv-d3">
+              <span>Meta Ads</span><span>Google Ads</span><span>Ad Creative</span>
+            </div>
+            <div class="proj-result rv rv-d3">
+              <strong>20+</strong><span>ad creatives shipped per month</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 05 -->
+        <article class="project">
+          <div class="project-media rv">
+            <div class="parallax-inner" data-parallax="0.12">
+              <!-- REPLACE PLACEHOLDER: reel montage
+                   <video src="assets/video-reel.mp4" autoplay muted loop playsinline></video> -->
+              <div class="placeholder">
+                <span class="ph-kind">Video</span>
+                <span class="ph-desc">Drop in: showreel of best videos and reels from the monthly pipeline</span>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="proj-index rv">05 / Production</span>
+            <h3 class="rv rv-d1">The Video Pipeline</h3>
+            <p class="rv rv-d2">End-to-end ownership from ideation and scripting through production, editing, and distribution. A six-stage workflow maintained at scale, month after month, with performance review feeding the next cycle.</p>
+            <div class="proj-tags rv rv-d3">
+              <span>Premiere Pro</span><span>Reels</span><span>YouTube</span>
+            </div>
+            <div class="proj-result rv rv-d3">
+              <strong>30+</strong><span>videos and reels produced per month</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 06 -->
+        <article class="project">
+          <div class="project-media rv">
+            <div class="parallax-inner" data-parallax="0.12">
+              <!-- REPLACE PLACEHOLDER: internal event coverage or culture content
+                   <img src="assets/internal-comms.jpg" alt="Internal communications and culture content"> -->
+              <div class="placeholder">
+                <span class="ph-kind">Image / Video</span>
+                <span class="ph-desc">Drop in: internal event coverage, culture content, or employer branding work</span>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="proj-index rv">06 / Internal</span>
+            <h3 class="rv rv-d1">Culture &amp; Employer Brand</h3>
+            <p class="rv rv-d2">Leading content for internal communications, leadership messaging, and workplace storytelling. Event coverage, talent acquisition support, and brand activations, with performance insights presented directly to the CEO.</p>
+            <div class="proj-tags rv rv-d3">
+              <span>Internal Comms</span><span>Employer Branding</span><span>Activations</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= METRICS ================= -->
+  <section class="metrics">
+    <div class="container">
+      <div class="eyebrow rv">Results</div>
+      <h2 class="section-title rv rv-d1">Numbers that<br>compounded</h2>
+      <div class="metrics-grid rv rv-d2">
+        <div class="metric">
+          <div class="num"><span class="count" data-target="50">0</span><span class="unit">K</span></div>
+          <div class="lbl">LinkedIn followers, grown from 12K, fully organic</div>
+        </div>
+        <div class="metric">
+          <div class="num"><span class="count" data-target="6.5" data-decimal="1">0</span><span class="unit">K</span></div>
+          <div class="lbl">Instagram followers, grown from 2.5K, fully organic</div>
+        </div>
+        <div class="metric">
+          <div class="num"><span class="unit">+</span><span class="count" data-target="200">0</span><span class="unit">%</span></div>
+          <div class="lbl">Instagram engagement increase</div>
+        </div>
+        <div class="metric">
+          <div class="num"><span class="unit">+</span><span class="count" data-target="120">0</span><span class="unit">%</span></div>
+          <div class="lbl">Instagram visibility increase</div>
+        </div>
+      </div>
+      <p class="mono-meta metrics-note rv rv-d3">One year · Organic only · High-frequency publishing + format experimentation + brand-led storytelling</p>
+    </div>
+  </section>
+
+  <!-- ================= EXPERIENCE ================= -->
+  <section class="experience" id="experience">
+    <div class="container">
+      <div class="eyebrow rv">Experience</div>
+      <h2 class="section-title rv rv-d1">Where I've worked</h2>
+      <div class="xp-list">
+
+        <div class="xp-row rv">
+          <div class="xp-period">2025 — Present<span class="current">● Current</span></div>
+          <div class="xp-role">
+            <h3>Producer · Content &amp; Creative Lead</h3>
+            <div class="co">InsuranceMarket.ae / Alfred Holdings (myAlfred LLC) · Dubai</div>
+          </div>
+          <ul class="xp-notes">
+            <li>End-to-end strategy across video, photography, editorial, radio, and social</li>
+            <li>Custodian of the Alfred brand voice across all channels</li>
+            <li>Manages and mentors junior content creator; reports directly to CEO</li>
+          </ul>
+        </div>
+
+        <div class="xp-row rv">
+          <div class="xp-period">2024 — 2025</div>
+          <div class="xp-role">
+            <h3>Freelancer · Digital Marketing</h3>
+            <div class="co">Independent · Dubai</div>
+          </div>
+          <ul class="xp-notes">
+            <li>Multi-client digital marketing, visual content, and campaign creative</li>
+          </ul>
+        </div>
+
+        <div class="xp-row rv">
+          <div class="xp-period">2021 — 2024</div>
+          <div class="xp-role">
+            <h3>Key Account Executive</h3>
+            <div class="co">Gadget Shipchandlers LLC · Dubai</div>
+          </div>
+          <ul class="xp-notes">
+            <li>+60% client retention · +40% overall sales · +110% lead generation uplift</li>
+            <li>Managed full eCommerce lifecycle across UAE sea ports</li>
+          </ul>
+        </div>
+
+        <div class="xp-row rv">
+          <div class="xp-period">2019 — 2020</div>
+          <div class="xp-role">
+            <h3>Project Management Intern</h3>
+            <div class="co">District Administration, Kasaragod · Kerala, India</div>
+          </div>
+          <ul class="xp-notes">
+            <li>Government development projects across tourism, agriculture, and infrastructure</li>
+            <li>Mentored a 12-member postgraduate team</li>
+          </ul>
+        </div>
+
+        <div class="xp-row rv">
+          <div class="xp-period">2018 — 2019</div>
+          <div class="xp-role">
+            <h3>eCommerce &amp; Content Creation Executive</h3>
+            <div class="co">RSO Outfits · Dubai</div>
+          </div>
+          <ul class="xp-notes">
+            <li>+35% online sales · +25% brand visibility · +20% traffic via influencer partnerships</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CAPABILITIES ================= -->
+  <section class="capabilities" id="services">
+    <div class="container">
+      <div class="eyebrow rv">Capabilities</div>
+      <h2 class="section-title rv rv-d1">What I do</h2>
+      <div class="cap-grid">
+        <div class="cap-list rv rv-d2">
+          <div class="cap-item"><span class="cap-name">Content Strategy &amp; Systems</span><span class="cap-no">01</span></div>
+          <div class="cap-item"><span class="cap-name">Video Production &amp; Editing</span><span class="cap-no">02</span></div>
+          <div class="cap-item"><span class="cap-name">Radio &amp; Voice Production</span><span class="cap-no">03</span></div>
+          <div class="cap-item"><span class="cap-name">Brand Voice &amp; Storytelling</span><span class="cap-no">04</span></div>
+          <div class="cap-item"><span class="cap-name">Performance Ad Creative</span><span class="cap-no">05</span></div>
+          <div class="cap-item"><span class="cap-name">Photography</span><span class="cap-no">06</span></div>
+          <div class="cap-item"><span class="cap-name">Internal Comms &amp; Employer Brand</span><span class="cap-no">07</span></div>
+        </div>
+        <div class="tools-col rv rv-d3">
+          <h4>Production &amp; Design</h4>
+          <div class="tool-row">
+            <span>Premiere Pro</span><span>Photoshop</span><span>Lightroom</span><span>Illustrator</span><span>InDesign</span><span>After Effects</span><span>DaVinci Resolve</span><span>Blender</span><span>CapCut</span><span>Canva</span>
+          </div>
+          <h4>Audio &amp; AI</h4>
+          <div class="tool-row">
+            <span>Adobe Audition</span><span>ElevenLabs</span><span>Claude</span><span>ChatGPT</span><span>Gemini</span><span>AI Image &amp; Video Gen</span>
+          </div>
+          <h4>Platforms &amp; Analytics</h4>
+          <div class="tool-row">
+            <span>Meta Business Suite</span><span>Meta Ads Manager</span><span>YouTube Studio</span><span>Power BI</span><span>Basic SQL</span>
+          </div>
+          <h4>Languages</h4>
+          <div class="tool-row">
+            <span>English</span><span>Malayalam</span><span>Hindi</span><span>Arabic (Basic)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PHOTOGRAPHY ================= -->
+  <section class="photo">
+    <div class="container">
+      <div class="eyebrow rv">Photography</div>
+      <h2 class="section-title rv rv-d1">Through the lens</h2>
+      <div class="photo-grid">
+
+        <div class="photo-card rv">
+          <div class="project-media">
+            <div class="parallax-inner" data-parallax="0.1">
+              <!-- REPLACE PLACEHOLDER: <img src="assets/food-01.jpg" alt="Food photography for Cafe Arabica"> -->
+              <div class="placeholder">
+                <span class="ph-kind">Image</span>
+                <span class="ph-desc">Drop in: food photography, Cafe Arabica series</span>
+              </div>
+            </div>
+          </div>
+          <div class="cap"><b>Food</b><span class="mono-meta">Cafe Arabica · Sony A7 III</span></div>
+        </div>
+
+        <div class="photo-card rv rv-d1">
+          <div class="project-media">
+            <div class="parallax-inner" data-parallax="0.1">
+              <!-- REPLACE PLACEHOLDER: <img src="assets/product-01.jpg" alt="Product photography"> -->
+              <div class="placeholder">
+                <span class="ph-kind">Image</span>
+                <span class="ph-desc">Drop in: product photography, eCommerce freelance work</span>
+              </div>
+            </div>
+          </div>
+          <div class="cap"><b>Product</b><span class="mono-meta">eCommerce Freelance</span></div>
+        </div>
+
+        <div class="photo-card rv rv-d2">
+          <div class="project-media">
+            <div class="parallax-inner" data-parallax="0.1">
+              <!-- REPLACE PLACEHOLDER: <img src="assets/event-01.jpg" alt="Event photography"> -->
+              <div class="placeholder">
+                <span class="ph-kind">Image</span>
+                <span class="ph-desc">Drop in: event and concert photography</span>
+              </div>
+            </div>
+          </div>
+          <div class="cap"><b>Event</b><span class="mono-meta">Live &amp; Stage</span></div>
+        </div>
+
+      </div>
+      <p class="mono-meta rv rv-d3" style="margin-top:28px;">Concept · Shoot · Edit — Hadi Abdul Gafoor</p>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="eyebrow rv">Contact</div>
+      <h2 class="contact-big rv rv-d1">Let's build<br>something.<br><a href="mailto:hadi6525@gmail.com">Say hello →</a></h2>
+      <div class="contact-grid rv rv-d2">
+        <div>
+          <div class="c-label">Email</div>
+          <a href="mailto:hadi6525@gmail.com">hadi6525@gmail.com</a>
+        </div>
+        <div>
+          <div class="c-label">Phone</div>
+          <span class="c-val">+971 50 538 4745</span>
+        </div>
+        <div>
+          <div class="c-label">LinkedIn</div>
+          <a href="https://linkedin.com/in/hadiabdulgafoor" target="_blank" rel="noopener">in/hadiabdulgafoor</a>
+        </div>
+        <div>
+          <div class="c-label">Behance / Instagram</div>
+          <a href="https://behance.net/i_had" target="_blank" rel="noopener">@i_had</a>
+        </div>
+      </div>
+      <div class="footer-row">
+        <span>© 2026 Hadi Abdul Gafoor</span>
+        <span>Dubai, UAE · Open to relocation</span>
+        <span>Availability: Immediate</span>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /scroll-content -->
+
+<script>
+(function () {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+  const content = document.getElementById('scrollContent');
+  const progress = document.getElementById('progress');
+
+  /* ========================================================
+     LERP SMOOTH SCROLL
+     Desktop with motion allowed: fixed content translated
+     toward native scroll position each frame.
+     Touch / reduced-motion: native scroll fallback.
+  ======================================================== */
+  const useSmooth = !reduceMotion && !isTouch;
+  let current = 0;
+  let target = 0;
+  const EASE = 0.085;
+
+  function setBodyHeight() {
+    if (useSmooth) {
+      document.body.style.height = content.scrollHeight + 'px';
+    } else {
+      document.body.style.height = '';
+    }
+  }
+
+  if (!useSmooth) {
+    document.body.classList.add('native-scroll');
+  } else {
+    setBodyHeight();
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(setBodyHeight).observe(content);
+    }
+    window.addEventListener('resize', setBodyHeight);
+  }
+
+  /* ========================================================
+     PARALLAX REGISTRY
+  ======================================================== */
+  const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]'));
+  const heroName = document.getElementById('heroName');
+
+  function applyParallax(scrollY) {
+    if (reduceMotion) return;
+    const vh = window.innerHeight;
+
+    // Hero name drifts up slightly slower than the page
+    if (heroName && scrollY < vh * 1.2) {
+      heroName.style.transform = 'translate3d(0,' + (scrollY * 0.18) + 'px,0)';
+    }
+
+    // Media frames: inner layer shifts within its clipped frame
+    for (const el of parallaxEls) {
+      const rect = el.parentElement.getBoundingClientRect();
+      if (rect.bottom < -100 || rect.top > vh + 100) continue;
+      const progressIn = (rect.top + rect.height / 2 - vh / 2) / vh; // -0.5..0.5 approx
+      const strength = parseFloat(el.dataset.parallax) || 0.1;
+      el.style.transform = 'translate3d(0,' + (progressIn * strength * -100) + 'px,0)';
+    }
+  }
+
+  /* ========================================================
+     MAIN LOOP
+  ======================================================== */
+  function frame() {
+    target = window.scrollY || window.pageYOffset;
+
+    if (useSmooth) {
+      current += (target - current) * EASE;
+      if (Math.abs(target - current) < 0.05) current = target;
+      content.style.transform = 'translate3d(0,' + (-current) + 'px,0)';
+    } else {
+      current = target;
+    }
+
+    // Progress bar
+    const max = (useSmooth ? content.scrollHeight : document.body.scrollHeight) - window.innerHeight;
+    progress.style.width = (max > 0 ? (current / max) * 100 : 0) + '%';
+
+    applyParallax(current);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* ========================================================
+     ANCHOR JUMPS (work with the virtual scroll)
+  ======================================================== */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      const el = document.querySelector(id);
+      if (!el) return;
+      e.preventDefault();
+      const elTop = el.getBoundingClientRect().top + current;
+      window.scrollTo({ top: elTop, behavior: useSmooth ? 'auto' : 'smooth' });
+    });
+  });
+
+  /* ========================================================
+     REVEAL ON SCROLL
+  ======================================================== */
+  const revealEls = document.querySelectorAll('.rv');
+  if (reduceMotion) {
+    revealEls.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  /* ========================================================
+     COUNT-UP METRICS
+  ======================================================== */
+  const counters = document.querySelectorAll('.count');
+  const countIO = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      countIO.unobserve(en.target);
+      const el = en.target;
+      const end = parseFloat(el.dataset.target);
+      const decimals = parseInt(el.dataset.decimal || '0', 10);
+      if (reduceMotion) { el.textContent = end.toFixed(decimals); return; }
+      const dur = 1600;
+      const t0 = performance.now();
+      (function tick(now) {
+        const p = Math.min((now - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 4);
+        el.textContent = (end * eased).toFixed(decimals);
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => countIO.observe(c));
+})();
+</script>
+</body>
+</html>
