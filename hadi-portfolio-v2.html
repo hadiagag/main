@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HADI ABDUL GAFOOR — CONTENT &amp; CREATIVE LEAD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     BRUTALIST V2 — MEDIA-FIRST
+     The work does the talking. Copy is captions, not essays.
+     Change --accent below to recolour the entire site.
+  ============================================================ */
+  :root {
+    --white: #FFFFFF;
+    --black: #0A0A0A;
+    --accent: #6B30FF;          /* ← swap this one value to recolour everything */
+    --accent-ink: #FFFFFF;      /* text colour used on top of the accent */
+    --grey: #55554F;
+    --bd: 2px solid var(--black);
+    --display: 'Anton', sans-serif;
+    --body: 'Archivo', sans-serif;
+    --mono: 'Space Mono', monospace;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  img, video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  a { color: inherit; }
+
+  /* ============================================================
+     SMOOTH SCROLL ARCHITECTURE
+  ============================================================ */
+  .scroll-content {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    will-change: transform;
+    background: var(--white);
+  }
+  body.native-scroll .scroll-content { position: static; will-change: auto; }
+
+  /* ============================================================
+     FIXED UI
+  ============================================================ */
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 5px;
+    width: 0%;
+    background: var(--accent);
+    z-index: 1001;
+  }
+  header {
+    position: fixed;
+    top: 5px; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    z-index: 1000;
+    border-bottom: var(--bd);
+    background: var(--white);
+  }
+  .wordmark {
+    font-family: var(--display);
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    padding: 13px 20px;
+    border-right: var(--bd);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .wordmark .star-inline { color: var(--accent); }
+  .header-nav { display: flex; }
+  .header-nav a {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    border-left: var(--bd);
+    transition: background 0.15s, color 0.15s;
+  }
+  .header-nav a:hover { background: var(--black); color: var(--white); }
+  .header-nav a.cta { background: var(--accent); color: var(--accent-ink); }
+  .header-nav a.cta:hover { background: var(--black); }
+
+  .big-star {
+    position: fixed;
+    bottom: 26px; right: 26px;
+    width: 60px; height: 60px;
+    z-index: 999;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .big-star svg { width: 100%; height: 100%; }
+  .big-star path { fill: var(--accent); }
+
+  /* ============================================================
+     SHARED
+  ============================================================ */
+  .pad { padding-left: 3vw; padding-right: 3vw; }
+  section { position: relative; }
+
+  .sec-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+    border-bottom: var(--bd);
+    padding-bottom: 16px;
+  }
+  .sec-index { font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 2px; }
+  .mono-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .grey { color: var(--grey); }
+  .ac { color: var(--accent); }
+
+  .rv {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+  }
+  .rv.in { opacity: 1; transform: translateY(0); }
+  .rv-d1 { transition-delay: 0.07s; }
+  .rv-d2 { transition-delay: 0.14s; }
+
+  /* ============================================================
+     MEDIA FRAME — the core unit of this site.
+     To use real work, replace the .placeholder inside
+     .parallax-inner with:
+       <img src="your-file.jpg" alt="">
+     or
+       <video src="your-file.mp4" autoplay muted loop playsinline></video>
+     Keep .media + .parallax-inner for parallax to work.
+  ============================================================ */
+  .media {
+    position: relative;
+    overflow: hidden;
+    background:
+      repeating-linear-gradient(135deg, #fff, #fff 30px, #F1F1ED 30px, #F1F1ED 60px);
+  }
+  .media .parallax-inner { position: absolute; inset: -12% 0; will-change: transform; }
+  .placeholder {
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px;
+  }
+  .ph-kind {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--black);
+    padding: 7px 14px;
+  }
+  .ph-desc {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--grey);
+    text-align: center;
+    max-width: 80%;
+    line-height: 1.7;
+    background: var(--white);
+    border: var(--bd);
+    padding: 9px 13px;
+  }
+
+  /* Caption bar under/over media — the only words a project gets */
+  .capbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-top: var(--bd);
+    background: var(--white);
+  }
+  .capbar .t {
+    font-family: var(--display);
+    font-size: clamp(17px, 1.6vw, 24px);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1;
+  }
+  .capbar .m { white-space: nowrap; }
+  .capbar .m b { color: var(--accent); font-family: var(--display); font-size: 18px; font-weight: 400; letter-spacing: 0.5px; }
+
+  /* ============================================================
+     HERO — name, then immediately the showreel
+  ============================================================ */
+  .hero { padding-top: 64px; overflow: hidden; }
+  .hero-name {
+    font-family: var(--display);
+    font-size: clamp(64px, 15.5vw, 270px);
+    line-height: 0.86;
+    text-transform: uppercase;
+    padding: 6vh 2vw 4vh;
+    will-change: transform;
+  }
+  .hero-name .row { display: flex; align-items: center; gap: 3vw; }
+  .hero-name .row:nth-child(2) { justify-content: flex-end; }
+  .hero-name .fill { color: var(--accent); }
+  .hero-name .outline { color: transparent; -webkit-text-stroke: 2.5px var(--black); }
+
+  .showreel { border-top: var(--bd); border-bottom: var(--bd); }
+  .showreel .media { aspect-ratio: 21 / 9; }
+  .showreel .capbar { border-top: var(--bd); }
+
+  .hero-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: var(--bd);
+  }
+  .hero-cell {
+    padding: 14px 18px;
+    border-right: var(--bd);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    line-height: 1.7;
+  }
+  .hero-cell:last-child { border-right: none; }
+  .hero-cell .lbl { color: var(--grey); display: block; font-weight: 400; }
+
+  /* ============================================================
+     MARQUEE
+  ============================================================ */
+  .marquee {
+    background: var(--black);
+    color: var(--white);
+    overflow: hidden;
+    padding: 14px 0;
+    border-bottom: var(--bd);
+  }
+  .marquee-track { display: flex; width: max-content; animation: marquee 22s linear infinite; }
+  .marquee-track span {
+    font-family: var(--display);
+    font-size: 24px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 0 24px;
+  }
+  .marquee-track .st { color: var(--accent); padding: 0; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ============================================================
+     ABOUT — one statement. That's it.
+  ============================================================ */
+  .about { padding: 11vh 0; }
+  .about-statement {
+    font-family: var(--display);
+    font-size: clamp(30px, 5vw, 78px);
+    line-height: 1.02;
+    text-transform: uppercase;
+    max-width: 24ch;
+    margin-top: 6vh;
+  }
+  .about-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: var(--bd);
+    margin-top: 7vh;
+  }
+  .about-strip .p-cell {
+    padding: 18px 20px;
+    border-right: var(--bd);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    transition: background 0.15s, color 0.15s;
+  }
+  .about-strip .p-cell:last-child { border-right: none; }
+  .about-strip .p-cell:hover { background: var(--accent); color: var(--accent-ink); }
+  .about-strip .p-cell .n { display: block; color: var(--accent); margin-bottom: 4px; }
+  .about-strip .p-cell:hover .n { color: var(--accent-ink); }
+
+  /* ============================================================
+     WORK — media grid. Big frames, caption bars only.
+  ============================================================ */
+  .work { padding: 11vh 0 12vh; }
+  .work-grid {
+    margin-top: 7vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: var(--bd);
+  }
+  .wcard { border-bottom: var(--bd); position: relative; }
+  .wcard:nth-child(odd) { border-right: var(--bd); }
+  .wcard.full { grid-column: 1 / -1; border-right: none; }
+  .wcard.full .media { aspect-ratio: 21 / 9; }
+  .wcard .media { aspect-ratio: 16 / 10; }
+  .wcard:nth-last-child(1), .wcard:nth-last-child(2):not(.full) { border-bottom: none; }
+  .wcard .idx {
+    position: absolute;
+    top: 0; left: 0;
+    z-index: 2;
+    font-family: var(--display);
+    font-size: 22px;
+    color: var(--white);
+    background: var(--black);
+    padding: 8px 16px;
+  }
+  .wcard .tagchip {
+    position: absolute;
+    top: 0; right: 0;
+    z-index: 2;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    background: var(--accent);
+    padding: 10px 14px;
+  }
+
+  /* ============================================================
+     METRICS — black slab, numbers only
+  ============================================================ */
+  .metrics { background: var(--black); color: var(--white); padding: 11vh 0; }
+  .metrics .sec-head { border-bottom-color: #3A3A35; }
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 7vh;
+    border: 2px solid var(--white);
+  }
+  .metric { padding: 38px 26px; border-right: 2px solid var(--white); }
+  .metric:last-child { border-right: none; }
+  .metric .num { font-family: var(--display); font-size: clamp(46px, 5.5vw, 92px); line-height: 1; }
+  .metric .num .unit { color: var(--accent); }
+  .metric .lbl {
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #A8A8A0;
+    line-height: 1.7;
+  }
+
+  /* ============================================================
+     EXPERIENCE — compact ledger, one line each
+  ============================================================ */
+  .experience { padding: 11vh 0; }
+  .xp-table { margin-top: 7vh; border: var(--bd); }
+  .xp-row {
+    display: grid;
+    grid-template-columns: 150px 1fr auto;
+    align-items: center;
+    border-bottom: var(--bd);
+    transition: background 0.15s, color 0.15s;
+  }
+  .xp-row:last-child { border-bottom: none; }
+  .xp-row:hover { background: var(--black); color: var(--white); }
+  .xp-row:hover .xp-co, .xp-row:hover .xp-period { color: var(--accent); }
+  .xp-cell { padding: 20px 22px; }
+  .xp-period { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 1px; }
+  .xp-role h3 { font-family: var(--display); font-size: 19px; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.05; font-weight: 400; }
+  .xp-co { font-family: var(--mono); font-size: 10.5px; margin-top: 4px; color: var(--grey); }
+  .xp-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ============================================================
+     CAPABILITIES — list only, no tools essay
+  ============================================================ */
+  .capabilities { padding: 11vh 0 0; }
+  .cap-list { margin-top: 7vh; border-top: var(--bd); }
+  .cap-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 3vw;
+    border-bottom: var(--bd);
+    transition: background 0.15s, color 0.15s, padding-left 0.3s var(--ease);
+    cursor: default;
+  }
+  .cap-item:hover { background: var(--accent); color: var(--accent-ink); padding-left: 5vw; }
+  .cap-name { font-family: var(--display); font-size: clamp(24px, 3.6vw, 54px); text-transform: uppercase; line-height: 1; }
+  .cap-no { font-family: var(--mono); font-size: 12px; font-weight: 700; }
+  .tools-line {
+    padding: 20px 3vw;
+    border-bottom: var(--bd);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--grey);
+    line-height: 2;
+  }
+  .tools-line b { color: var(--black); font-weight: 700; }
+
+  /* ============================================================
+     PHOTOGRAPHY — 6-frame wall
+  ============================================================ */
+  .photo { padding: 11vh 0 12vh; }
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 7vh;
+    border: var(--bd);
+  }
+  .photo-card { border-right: var(--bd); border-bottom: var(--bd); }
+  .photo-card:nth-child(3n) { border-right: none; }
+  .photo-card:nth-child(n+4) { border-bottom: none; }
+  .photo-card .media { aspect-ratio: 1 / 1; }
+  .photo-card .capbar { padding: 10px 14px; }
+  .photo-card .capbar .t { font-size: 15px; }
+
+  /* ============================================================
+     CONTACT — accent slab
+  ============================================================ */
+  .contact { background: var(--accent); color: var(--accent-ink); padding: 13vh 0 5vh; overflow: hidden; }
+  .contact-big {
+    font-family: var(--display);
+    font-size: clamp(56px, 13vw, 230px);
+    line-height: 0.88;
+    text-transform: uppercase;
+  }
+  .contact-big a {
+    color: var(--accent-ink);
+    text-decoration: none;
+    border-bottom: 6px solid rgba(255,255,255,0.4);
+    transition: border-color 0.2s;
+  }
+  .contact-big a:hover { border-color: var(--accent-ink); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 8vh;
+    border: 2px solid var(--accent-ink);
+  }
+  .c-cell { padding: 22px; border-right: 2px solid var(--accent-ink); }
+  .c-cell:last-child { border-right: none; }
+  .c-cell .c-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 8px;
+  }
+  .c-cell a, .c-cell .c-val { font-weight: 700; font-size: 14px; color: var(--accent-ink); text-decoration: none; word-break: break-all; }
+  .c-cell a:hover { text-decoration: underline; }
+  .footer-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 9vh;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* ============================================================
+     RESPONSIVE
+  ============================================================ */
+  @media (max-width: 960px) {
+    .hero-strip { grid-template-columns: 1fr 1fr; }
+    .hero-cell { border-bottom: var(--bd); }
+    .hero-cell:nth-child(2n) { border-right: none; }
+    .hero-cell:nth-child(3), .hero-cell:nth-child(4) { border-bottom: none; }
+    .about-strip { grid-template-columns: 1fr 1fr; }
+    .about-strip .p-cell { border-bottom: var(--bd); }
+    .about-strip .p-cell:nth-child(2n) { border-right: none; }
+    .about-strip .p-cell:nth-child(3), .about-strip .p-cell:nth-child(4) { border-bottom: none; }
+    .work-grid { grid-template-columns: 1fr; }
+    .wcard:nth-child(odd) { border-right: none; }
+    .wcard { border-bottom: var(--bd) !important; }
+    .wcard:last-child { border-bottom: none !important; }
+    .metrics-grid { grid-template-columns: 1fr 1fr; }
+    .metric:nth-child(2) { border-right: none; }
+    .metric:nth-child(1), .metric:nth-child(2) { border-bottom: 2px solid var(--white); }
+    .xp-row { grid-template-columns: 1fr; }
+    .xp-tag { display: none; }
+    .photo-grid { grid-template-columns: 1fr 1fr; }
+    .photo-card:nth-child(3n) { border-right: var(--bd); }
+    .photo-card:nth-child(2n) { border-right: none; }
+    .photo-card:nth-child(n+4) { border-bottom: var(--bd); }
+    .photo-card:nth-child(n+5) { border-bottom: none; }
+    .contact-grid { grid-template-columns: 1fr 1fr; }
+    .c-cell:nth-child(2) { border-right: none; }
+    .c-cell:nth-child(1), .c-cell:nth-child(2) { border-bottom: 2px solid var(--accent-ink); }
+    .header-nav a:not(.cta) { display: none; }
+    .big-star { width: 42px; height: 42px; bottom: 16px; right: 16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rv { opacity: 1; transform: none; transition: none; }
+    .marquee-track { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<header>
+  <a href="#top" class="wordmark"><span class="star-inline">✱</span> HADI A.G.</a>
+  <nav class="header-nav">
+    <a href="#work">Work</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact" class="cta">Say Hello</a>
+  </nav>
+</header>
+
+<div class="big-star" id="bigStar" aria-hidden="true">
+  <svg viewBox="0 0 100 100" fill="none">
+    <path d="M50 0 L58 38 L96 30 L64 50 L96 70 L58 62 L50 100 L42 62 L4 70 L36 50 L4 30 L42 38 Z"/>
+  </svg>
+</div>
+
+<div class="scroll-content" id="scrollContent">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="top">
+    <h1 class="hero-name" id="heroName">
+      <div class="row rv"><span>HADI</span><span class="outline">ABDUL</span></div>
+      <div class="row rv rv-d1"><span class="fill">GAFOOR</span></div>
+    </h1>
+
+    <!-- SHOWREEL — the first thing after the name is work, not words -->
+    <div class="showreel rv rv-d2">
+      <div class="media">
+        <div class="parallax-inner" data-parallax="0.1">
+          <!-- REPLACE PLACEHOLDER:
+               <video src="assets/showreel.mp4" autoplay muted loop playsinline></video> -->
+          <div class="placeholder">
+            <span class="ph-kind">Showreel · Video</span>
+            <span class="ph-desc">Drop in: 30 to 60 second showreel. Best clips, fast cuts, no intro card. This frame is the handshake.</span>
+          </div>
+        </div>
+      </div>
+      <div class="capbar">
+        <span class="t">Showreel '26</span>
+        <span class="mono-meta grey m">Content &amp; Creative Lead · Dubai, UAE</span>
+      </div>
+    </div>
+
+    <div class="hero-strip">
+      <div class="hero-cell"><span class="lbl">Currently</span>Alfred Holdings · InsuranceMarket.ae</div>
+      <div class="hero-cell"><span class="lbl">Output</span>30+ videos / month</div>
+      <div class="hero-cell"><span class="lbl">Growth</span>12K → 50K organic</div>
+      <div class="hero-cell"><span class="lbl">Status</span>Available · Open to relocation</div>
+    </div>
+  </section>
+
+  <!-- ================= MARQUEE ================= -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Content Strategy</span><span class="st">✱</span>
+      <span>Video Production</span><span class="st">✱</span>
+      <span>Radio &amp; Voice</span><span class="st">✱</span>
+      <span>Brand Storytelling</span><span class="st">✱</span>
+      <span>Photography</span><span class="st">✱</span>
+      <span>Performance Creative</span><span class="st">✱</span>
+      <span>Content Strategy</span><span class="st">✱</span>
+      <span>Video Production</span><span class="st">✱</span>
+      <span>Radio &amp; Voice</span><span class="st">✱</span>
+      <span>Brand Storytelling</span><span class="st">✱</span>
+      <span>Photography</span><span class="st">✱</span>
+      <span>Performance Creative</span><span class="st">✱</span>
+    </div>
+  </div>
+
+  <!-- ================= ABOUT — one line ================= -->
+  <section class="about pad" id="about">
+    <div class="sec-head rv">
+      <span class="sec-index">[ 01 — ABOUT ]</span>
+      <span class="mono-meta grey">8+ years · Content / Brand / Growth</span>
+    </div>
+    <p class="about-statement rv rv-d1">I build content <span class="ac">systems</span> that scale visibility. The work below says the rest.</p>
+    <div class="about-strip rv rv-d2">
+      <div class="p-cell"><span class="n">01</span>System-First</div>
+      <div class="p-cell"><span class="n">02</span>Test + Repeat</div>
+      <div class="p-cell"><span class="n">03</span>One Voice</div>
+      <div class="p-cell"><span class="n">04</span>Distribution-Led</div>
+    </div>
+  </section>
+
+  <!-- ================= WORK — the wall ================= -->
+  <section class="work pad" id="work">
+    <div class="sec-head rv">
+      <span class="sec-index">[ 02 — SELECTED WORK ]</span>
+      <span class="mono-meta grey">06 Projects · 2025 — 2026</span>
+    </div>
+
+    <div class="work-grid rv rv-d1">
+
+      <!-- 01 · FULL WIDTH FEATURE -->
+      <article class="wcard full">
+        <span class="idx">01</span>
+        <span class="tagchip">Original IP</span>
+        <div class="media">
+          <div class="parallax-inner" data-parallax="0.1">
+            <!-- REPLACE PLACEHOLDER:
+                 <video src="assets/alfred-friends.mp4" autoplay muted loop playsinline></video> -->
+            <div class="placeholder">
+              <span class="ph-kind">Video</span>
+              <span class="ph-desc">Drop in: Alfred &amp; Friends episode clip or character showcase. Your biggest piece gets the biggest frame.</span>
+            </div>
+          </div>
+        </div>
+        <div class="capbar">
+          <span class="t">Alfred &amp; Friends — Animated Series</span>
+          <span class="m mono-meta grey">Character voices · Voice systems · Ages 4–10</span>
+        </div>
+      </article>
+
+      <!-- 02 -->
+      <article class="wcard">
+        <span class="idx">02</span>
+        <span class="tagchip">Growth</span>
+        <div class="media">
+          <div class="parallax-inner" data-parallax="0.1">
+            <!-- REPLACE PLACEHOLDER:
+                 <video src="assets/social-growth.mp4" autoplay muted loop playsinline></video> -->
+            <div class="placeholder">
+              <span class="ph-kind">Video / Image</span>
+              <span class="ph-desc">Drop in: top-performing post montage or analytics reel</span>
+            </div>
+          </div>
+        </div>
+        <div class="capbar">
+          <span class="t">Organic Growth Engine</span>
+          <span class="m"><b>12K→50K</b></span>
+        </div>
+      </article>
+
+      <!-- 03 -->
+      <article class="wcard">
+        <span class="idx">03</span>
+        <span class="tagchip">Production</span>
+        <div class="media">
+          <div class="parallax-inner" data-parallax="0.1">
+            <!-- REPLACE PLACEHOLDER:
+                 <video src="assets/video-reel.mp4" autoplay muted loop playsinline></video> -->
+            <div class="placeholder">
+              <span class="ph-kind">Video</span>
+              <span class="ph-desc">Drop in: best-of reel from the monthly video pipeline</span>
+            </div>
+          </div>
+        </div>
+        <div class="capbar">
+          <span class="t">The Video Pipeline</span>
+          <span class="m"><b>30+/mo</b></span>
+        </div>
+      </article>
+
+      <!-- 04 -->
+      <article class="wcard">
+        <span class="idx">04</span>
+        <span class="tagchip">Broadcast</span>
+        <div class="media">
+          <div class="parallax-inner" data-parallax="0.1">
+            <!-- REPLACE PLACEHOLDER:
+                 <img src="assets/radio-production.jpg" alt="Radio production at Alfred Studios"> -->
+            <div class="placeholder">
+              <span class="ph-kind">Image / Audio</span>
+              <span class="ph-desc">Drop in: studio shot, waveform visual, or radio spot player</span>
+            </div>
+          </div>
+        </div>
+        <div class="capbar">
+          <span class="t">Radio &amp; Voice</span>
+          <span class="m mono-meta grey">UAE Networks</span>
+        </div>
+      </article>
+
+      <!-- 05 -->
+      <article class="wcard">
+        <span class="idx">05</span>
+        <span class="tagchip">Performance</span>
+        <div class="media">
+          <div class="parallax-inner" data-parallax="0.1">
+            <!-- REPLACE PLACEHOLDER:
+                 <img src="assets/ad-creatives.jpg" alt="Campaign creative grid"> -->
+            <div class="placeholder">
+              <span class="ph-kind">Image</span>
+              <span class="ph-desc">Drop in: grid of best Meta and Google ad creatives</span>
+            </div>
+          </div>
+        </div>
+        <div class="capbar">
+          <span class="t">Campaign Creative</span>
+          <span class="m"><b>20+/mo</b></span>
+        </div>
+      </article>
+
+      <!-- 06 · FULL WIDTH CLOSER -->
+      <article class="wcard full">
+        <span class="idx">06</span>
+        <span class="tagchip">Culture</span>
+        <div class="media">
+          <div class="parallax-inner" data-parallax="0.1">
+            <!-- REPLACE PLACEHOLDER:
+                 <img src="assets/internal-comms.jpg" alt="Internal communications and culture content"> -->
+            <div class="placeholder">
+              <span class="ph-kind">Image / Video</span>
+              <span class="ph-desc">Drop in: internal event coverage, culture content, or employer brand work</span>
+            </div>
+          </div>
+        </div>
+        <div class="capbar">
+          <span class="t">Culture &amp; Employer Brand</span>
+          <span class="m mono-meta grey">Internal comms · Activations · CEO reporting</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ================= METRICS ================= -->
+  <section class="metrics pad">
+    <div class="sec-head rv">
+      <span class="sec-index">[ 03 — RESULTS ]</span>
+      <span class="mono-meta" style="color:#A8A8A0;">One year · Organic only</span>
+    </div>
+    <div class="metrics-grid rv rv-d1">
+      <div class="metric">
+        <div class="num"><span class="count" data-target="50">0</span><span class="unit">K</span></div>
+        <div class="lbl">LinkedIn followers · from 12K</div>
+      </div>
+      <div class="metric">
+        <div class="num"><span class="count" data-target="6.5" data-decimal="1">0</span><span class="unit">K</span></div>
+        <div class="lbl">Instagram followers · from 2.5K</div>
+      </div>
+      <div class="metric">
+        <div class="num"><span class="unit">+</span><span class="count" data-target="200">0</span><span class="unit">%</span></div>
+        <div class="lbl">Instagram engagement</div>
+      </div>
+      <div class="metric">
+        <div class="num"><span class="unit">+</span><span class="count" data-target="120">0</span><span class="unit">%</span></div>
+        <div class="lbl">Instagram visibility</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EXPERIENCE — one line each ================= -->
+  <section class="experience pad" id="experience">
+    <div class="sec-head rv">
+      <span class="sec-index">[ 04 — EXPERIENCE ]</span>
+      <span class="mono-meta grey">2018 — Present</span>
+    </div>
+    <div class="xp-table rv rv-d1">
+      <div class="xp-row">
+        <div class="xp-cell xp-period">2025 — NOW</div>
+        <div class="xp-cell xp-role">
+          <h3>Producer · Content &amp; Creative Lead</h3>
+          <div class="xp-co">InsuranceMarket.ae / Alfred Holdings · Dubai</div>
+        </div>
+        <div class="xp-cell xp-tag ac">● Current</div>
+      </div>
+      <div class="xp-row">
+        <div class="xp-cell xp-period">2024 — 2025</div>
+        <div class="xp-cell xp-role">
+          <h3>Freelancer · Digital Marketing</h3>
+          <div class="xp-co">Independent · Dubai</div>
+        </div>
+        <div class="xp-cell xp-tag grey">Multi-client</div>
+      </div>
+      <div class="xp-row">
+        <div class="xp-cell xp-period">2021 — 2024</div>
+        <div class="xp-cell xp-role">
+          <h3>Key Account Executive</h3>
+          <div class="xp-co">Gadget Shipchandlers LLC · Dubai</div>
+        </div>
+        <div class="xp-cell xp-tag grey">+110% leads</div>
+      </div>
+      <div class="xp-row">
+        <div class="xp-cell xp-period">2019 — 2020</div>
+        <div class="xp-cell xp-role">
+          <h3>Project Management Intern</h3>
+          <div class="xp-co">District Administration, Kasaragod · Kerala</div>
+        </div>
+        <div class="xp-cell xp-tag grey">Gov projects</div>
+      </div>
+      <div class="xp-row">
+        <div class="xp-cell xp-period">2018 — 2019</div>
+        <div class="xp-cell xp-role">
+          <h3>eCommerce &amp; Content Executive</h3>
+          <div class="xp-co">RSO Outfits · Dubai</div>
+        </div>
+        <div class="xp-cell xp-tag grey">+35% sales</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CAPABILITIES ================= -->
+  <section class="capabilities" id="services">
+    <div class="sec-head rv pad">
+      <span class="sec-index">[ 05 — CAPABILITIES ]</span>
+      <span class="mono-meta grey">Hover the list</span>
+    </div>
+    <div class="cap-list rv rv-d1">
+      <div class="cap-item"><span class="cap-name">Content Strategy &amp; Systems</span><span class="cap-no">01</span></div>
+      <div class="cap-item"><span class="cap-name">Video Production &amp; Editing</span><span class="cap-no">02</span></div>
+      <div class="cap-item"><span class="cap-name">Radio &amp; Voice Production</span><span class="cap-no">03</span></div>
+      <div class="cap-item"><span class="cap-name">Brand Voice &amp; Storytelling</span><span class="cap-no">04</span></div>
+      <div class="cap-item"><span class="cap-name">Performance Ad Creative</span><span class="cap-no">05</span></div>
+      <div class="cap-item"><span class="cap-name">Photography</span><span class="cap-no">06</span></div>
+      <div class="cap-item"><span class="cap-name">Internal Comms &amp; Employer Brand</span><span class="cap-no">07</span></div>
+    </div>
+    <div class="tools-line rv">
+      <b>Toolkit:</b> Premiere Pro · After Effects · DaVinci · Photoshop · Lightroom · Illustrator · InDesign · Blender · Audition · ElevenLabs · Claude · ChatGPT · Meta Ads · YouTube Studio · Power BI &nbsp;&nbsp;<b>Languages:</b> English · Malayalam · Hindi · Arabic (Basic)
+    </div>
+  </section>
+
+  <!-- ================= PHOTOGRAPHY — 6-frame wall ================= -->
+  <section class="photo pad">
+    <div class="sec-head rv">
+      <span class="sec-index">[ 06 — PHOTOGRAPHY ]</span>
+      <span class="mono-meta grey">Concept · Shoot · Edit</span>
+    </div>
+    <div class="photo-grid rv rv-d1">
+
+      <div class="photo-card">
+        <div class="media">
+          <div class="parallax-inner" data-parallax="0.08">
+            <!-- REPLACE: <img src="assets/food-01.jpg" alt="Food photography"> -->
+            <div class="placeholder"><span class="ph-kind">Image</span><span class="ph-desc">Food · Cafe Arabica · shot 1</span></div>
+          </div>
+        </div>
+        <div class="capbar"><span class="t">Food</span><span class="m mono-meta grey">Sony A7 III</span></div>
+      </div>
+
+      <div class="photo-card">
+        <div class="media">
+          <div class="parallax-inner" data-parallax="0.08">
+            <!-- REPLACE: <img src="assets/food-02.jpg" alt="Food photography"> -->
+            <div class="placeholder"><span class="ph-kind">Image</span><span class="ph-desc">Food · Cafe Arabica · shot 2</span></div>
+          </div>
+        </div>
+        <div class="capbar"><span class="t">Food</span><span class="m mono-meta grey">Sony A7 III</span></div>
+      </div>
+
+      <div class="photo-card">
+        <div class="media">
+          <div class="parallax-inner" data-parallax="0.08">
+            <!-- REPLACE: <img src="assets/product-01.jpg" alt="Product photography"> -->
+            <div class="placeholder"><span class="ph-kind">Image</span><span class="ph-desc">Product · eCommerce · shot 1</span></div>
+          </div>
+        </div>
+        <div class="capbar"><span class="t">Product</span><span class="m mono-meta grey">Freelance</span></div>
+      </div>
+
+      <div class="photo-card">
+        <div class="media">
+          <div class="parallax-inner" data-parallax="0.08">
+            <!-- REPLACE: <img src="assets/product-02.jpg" alt="Product photography"> -->
+            <div class="placeholder"><span class="ph-kind">Image</span><span class="ph-desc">Product · eCommerce · shot 2</span></div>
+          </div>
+        </div>
+        <div class="capbar"><span class="t">Product</span><span class="m mono-meta grey">Freelance</span></div>
+      </div>
+
+      <div class="photo-card">
+        <div class="media">
+          <div class="parallax-inner" data-parallax="0.08">
+            <!-- REPLACE: <img src="assets/event-01.jpg" alt="Event photography"> -->
+            <div class="placeholder"><span class="ph-kind">Image</span><span class="ph-desc">Event · stage &amp; lights</span></div>
+          </div>
+        </div>
+        <div class="capbar"><span class="t">Event</span><span class="m mono-meta grey">Live</span></div>
+      </div>
+
+      <div class="photo-card">
+        <div class="media">
+          <div class="parallax-inner" data-parallax="0.08">
+            <!-- REPLACE: <img src="assets/event-02.jpg" alt="Event photography"> -->
+            <div class="placeholder"><span class="ph-kind">Image</span><span class="ph-desc">Event · crowd &amp; atmosphere</span></div>
+          </div>
+        </div>
+        <div class="capbar"><span class="t">Event</span><span class="m mono-meta grey">Live</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="contact pad" id="contact">
+    <h2 class="contact-big rv">Seen enough?<br><a href="mailto:hadi6525@gmail.com">Say hello ↗</a></h2>
+    <div class="contact-grid rv rv-d1">
+      <div class="c-cell">
+        <div class="c-label">Email</div>
+        <a href="mailto:hadi6525@gmail.com">hadi6525@gmail.com</a>
+      </div>
+      <div class="c-cell">
+        <div class="c-label">Phone</div>
+        <span class="c-val">+971 50 538 4745</span>
+      </div>
+      <div class="c-cell">
+        <div class="c-label">LinkedIn</div>
+        <a href="https://linkedin.com/in/hadiabdulgafoor" target="_blank" rel="noopener">in/hadiabdulgafoor</a>
+      </div>
+      <div class="c-cell">
+        <div class="c-label">Behance / Instagram</div>
+        <a href="https://behance.net/i_had" target="_blank" rel="noopener">@i_had</a>
+      </div>
+    </div>
+    <div class="footer-row">
+      <span>© 2026 Hadi Abdul Gafoor</span>
+      <span>Dubai, UAE ✱ Open to relocation</span>
+      <span>Availability: Immediate</span>
+    </div>
+  </section>
+
+</div><!-- /scroll-content -->
+
+<script>
+(function () {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+  const content = document.getElementById('scrollContent');
+  const progress = document.getElementById('progress');
+  const bigStar = document.getElementById('bigStar');
+
+  /* LERP SMOOTH SCROLL */
+  const useSmooth = !reduceMotion && !isTouch;
+  let current = 0;
+  let target = 0;
+  const EASE = 0.09;
+
+  function setBodyHeight() {
+    if (useSmooth) document.body.style.height = content.scrollHeight + 'px';
+    else document.body.style.height = '';
+  }
+
+  if (!useSmooth) {
+    document.body.classList.add('native-scroll');
+  } else {
+    setBodyHeight();
+    if ('ResizeObserver' in window) new ResizeObserver(setBodyHeight).observe(content);
+    window.addEventListener('resize', setBodyHeight);
+  }
+
+  /* PARALLAX + SCROLL STAR */
+  const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]'));
+  const heroName = document.getElementById('heroName');
+
+  function applyMotion(scrollY) {
+    if (reduceMotion) return;
+    const vh = window.innerHeight;
+    if (heroName && scrollY < vh * 1.3) {
+      heroName.style.transform = 'translate3d(0,' + (scrollY * 0.22) + 'px,0)';
+    }
+    if (bigStar) bigStar.style.transform = 'rotate(' + (scrollY * 0.18) + 'deg)';
+    for (const el of parallaxEls) {
+      const rect = el.parentElement.getBoundingClientRect();
+      if (rect.bottom < -100 || rect.top > vh + 100) continue;
+      const p = (rect.top + rect.height / 2 - vh / 2) / vh;
+      const strength = parseFloat(el.dataset.parallax) || 0.1;
+      el.style.transform = 'translate3d(0,' + (p * strength * -100) + 'px,0)';
+    }
+  }
+
+  /* MAIN LOOP */
+  function frame() {
+    target = window.scrollY || window.pageYOffset;
+    if (useSmooth) {
+      current += (target - current) * EASE;
+      if (Math.abs(target - current) < 0.05) current = target;
+      content.style.transform = 'translate3d(0,' + (-current) + 'px,0)';
+    } else {
+      current = target;
+    }
+    const max = (useSmooth ? content.scrollHeight : document.body.scrollHeight) - window.innerHeight;
+    progress.style.width = (max > 0 ? (current / max) * 100 : 0) + '%';
+    applyMotion(current);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* ANCHOR JUMPS */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const el = document.querySelector(a.getAttribute('href'));
+      if (!el) return;
+      e.preventDefault();
+      const top = el.getBoundingClientRect().top + current - 64;
+      window.scrollTo({ top: Math.max(top, 0), behavior: useSmooth ? 'auto' : 'smooth' });
+    });
+  });
+
+  /* REVEALS */
+  const revealEls = document.querySelectorAll('.rv');
+  if (reduceMotion) {
+    revealEls.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  /* COUNT-UPS */
+  const counters = document.querySelectorAll('.count');
+  const countIO = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      countIO.unobserve(en.target);
+      const el = en.target;
+      const end = parseFloat(el.dataset.target);
+      const decimals = parseInt(el.dataset.decimal || '0', 10);
+      if (reduceMotion) { el.textContent = end.toFixed(decimals); return; }
+      const dur = 1400;
+      const t0 = performance.now();
+      (function tick(now) {
+        const p = Math.min((now - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 4);
+        el.textContent = (end * eased).toFixed(decimals);
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => countIO.observe(c));
+})();
+</script>
+</body>
+</html>
